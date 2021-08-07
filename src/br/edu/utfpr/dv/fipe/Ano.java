@@ -1,8 +1,11 @@
 package br.edu.utfpr.dv.fipe;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Ano {
 
 	private String codigo;
+
 	private String nome;
 	
 	public Ano() {

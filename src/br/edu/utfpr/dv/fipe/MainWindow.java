@@ -177,9 +177,40 @@ public class MainWindow {
 	
 	private void carregarAnos(Marca marca, Modelo modelo) {
 		this.comboAno.removeAllItems();
+		
+		try {
+			String json = getContent(
+					"https://parallelum.com.br/fipe/api/v1/carros/marcas/" +
+					String.valueOf(marca.getCodigo()) +	"/modelos/" + modelo.getCodigo() + "/anos");
+
+			ObjectMapper mapper = new ObjectMapper();
+			Ano[] anos = mapper.readValue(json, Ano[].class);
+
+			
+			for(Ano a : anos) {
+				this.comboAno.addItem(a);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private void carregarValor(Marca marca, Modelo modelo, Ano ano) {
 		this.labelValor.setText("");
+				
+		try {
+			String json = getContent(
+					"https://parallelum.com.br/fipe/api/v1/carros/marcas/" +
+					String.valueOf(marca.getCodigo()) +	"/modelos/" + modelo.getCodigo() + "/anos/" + ano.getCodigo());
+
+			ObjectMapper mapper = new ObjectMapper();
+			Veiculo veiculo = mapper.readValue(json, Veiculo.class);
+
+			this.labelValor.setText(veiculo.getValor());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
